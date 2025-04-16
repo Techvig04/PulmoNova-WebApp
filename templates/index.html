@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PulmoNova - Smart Care for Healthy Lungs</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap" rel="stylesheet">
+  <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Overall Reset/Theme */
+    body {
+      opacity: 0;
+      animation: fadeInPage 1s ease-in forwards;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #E0F7FA;
+      color: #333;
+    }
+    @keyframes fadeInPage {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Header with light blue BG for title & subtitle */
+    .header {
+      background-color: #BBDEFB; /* Light blue background */
+      text-align: center;
+      padding: 30px 20px;
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 3rem;
+      font-weight: 700;
+    }
+    .header h2 {
+      margin: 10px 0 0;
+      font-size: 1.5rem;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Main Container */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .panel {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .panel h3 {
+      margin-top: 0;
+      color: #4FC3F7;
+    }
+
+    /* Input Fields */
+    .input-icon {
+      position: relative;
+      margin-bottom: 15px;
+      width: 100%;
+      max-width: 400px; /* Medium width */
+    }
+    .input-icon label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .input-icon input,
+    .input-icon select,
+    .input-icon textarea {
+      width: 100%;
+      min-width: 250px; /* Ensures medium width */
+      padding: 10px 15px;
+      padding-left: 40px; 
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .input-icon input:focus,
+    .input-icon select:focus,
+    .input-icon textarea:focus {
+      border-color: #4FC3F7;
+    }
+    .input-icon i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+
+    /* Drag & Drop Area */
+    .upload-area {
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      background-color: #FAFAFA;
+      cursor: pointer;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .upload-area.dragover {
+      border-color: #4FC3F7;
+      box-shadow: 0 0 10px rgba(79,195,247,0.5);
+    }
+
+    /* Submit Button on Right */
+    .submit-container {
+      text-align: right; /* Right-align the submit button */
+      margin-top: 20px;
+    }
+    .submit-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #4FC3F7;
+      color: #fff;
+      cursor: pointer;
+    }
+    .submit-btn {
+      transition: transform 0.2s ease-in-out;
+    }
+    .submit-btn:hover {
+      transform: scale(1.05);
+    }
+
+
+    /* Info Boxes */
+    .info-boxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      width: 90%;
+      max-width: 1200px;
+      margin: 40px auto;
+    }
+    .info-box {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .info-box img {
+      max-width: 80px;
+      margin-bottom: 10px;
+    }
+
+    /* Chatbot Button */
+    .chatbot-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #4FC3F7;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .chatbot-btn i.fa-robot {
+    display: none !important;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .info-boxes {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Light Blue BG -->
+  <div class="header">
+    <h1>PulmoNova</h1>
+    <h2>Empowering your journey to healthier lungs</h2>
+  </div>
+
+  <!-- Main Form -->
+  <form method="POST" action="/" enctype="multipart/form-data" id="upload-form">
+    <div class="container">
+      <!-- Left Panel: Patient Info -->
+      <div class="panel">
+        <h3>Patient Information</h3>
+        <div class="input-icon">
+          <label for="patient_id">Patient ID</label>
+          <i class="fa fa-id-card"></i>
+          <input type="text" placeholder="Enter Patient ID" name="patient_id" id="patient_id" required>
+        </div>
+        <div class="input-icon">
+          <label for="age">Age</label>
+          <i class="fa fa-calendar-alt"></i>
+          <input type="number" placeholder="Enter Age" name="age" id="age" required>
+        </div>
+        <div class="input-icon">
+          <label for="gender">Gender</label>
+          <i class="fa fa-venus-mars"></i>
+          <select name="gender" id="gender" required>
+            <option value="" disabled selected>Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="input-icon">
+          <label for="symptoms">Description</label>
+          <i class="fa fa-notes-medical"></i>
+          <textarea placeholder="Describe your symptoms" name="symptoms" id="symptoms" rows="4" required></textarea>
+        </div>
+      </div>
+      <!-- Right Panel: File Upload -->
+      <div class="panel">
+        <h3>Upload Medical Image</h3>
+        <div id="upload-area" class="upload-area">
+          <p>Drag and drop your file here or click to upload</p>
+          <small>Upload Chest X-ray or CT Scan</small>
+          <input type="file" id="file-input" name="file" accept=".jpg,.jpeg,.png,.dcm" style="display: none;" required>
+        </div>
+        <div class="submit-container">
+          <button type="submit" class="submit-btn">Submit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- Three Info Boxes -->
+  <div class="info-boxes">
+  <div class="info-box">
+    <h3>About Pneumonia</h3>
+    <img src="{{ url_for('static', filename='images/pinfo.png') }}" alt="Pneumonia Info">
+    <p>Pneumonia is a serious lung infection that inflames the air sacs. Early detection is crucial.</p>
+  </div>
+  <div class="info-box">
+    <h3>Our AI Model</h3>
+    <img src="{{ url_for('static', filename='images/Ai.png') }}" alt="AI Model">
+    <p>Our state-of-the-art AI model analyzes chest scans to detect early signs of pneumonia.</p>
+  </div>
+  <div class="info-box">
+    <h3>Stay Motivated</h3>
+    <img src="{{ url_for('static', filename='images/stay.png') }}" alt="Motivation">
+    <p>Your health is your wealth. Trust PulmoNova for accurate diagnostics and care tips.</p>
+  </div>
+</div>
+
+
+  <!-- Floating Chatbot Button -->
+  <button class="chatbot-btn" id="chatbot-btn">
+    <i class="fas fa-robot"></i>
+  </button>
+
+  <!-- BotPress Integration Scripts -->
+  <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js"></script>
+  <script src="https://files.bpcontent.cloud/2025/02/19/12/20250219122359-C2A2OTT9.js"></script>
+
+  <!-- Drag & Drop JavaScript -->
+  <script>
+    const uploadArea = document.getElementById('upload-area');
+    const fileInput = document.getElementById('file-input');
+
+    uploadArea.addEventListener('click', () => fileInput.click());
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      fileInput.files = e.dataTransfer.files;
+    });
+  </script>
+</body>
+</html>
