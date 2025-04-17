@@ -19,7 +19,7 @@ if not os.path.exists(UPLOAD_FOLDER):
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Load model (adjust MODEL_PATH to point to your model file)
-MODEL_PATH = r'C:\pneumonia-detection\my_model.keras'
+MODEL_PATH = os.path.join(app.root_path, 'models', 'my_model.keras')
 model = load_model(MODEL_PATH)
 
 IMG_SIZE = 150
